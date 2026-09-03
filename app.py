@@ -20,13 +20,6 @@ df_vendas["Mes"] = df_vendas["Data da Encomenda"].dt.to_period("M").astype(str)
 df_data = df_vendas.groupby("Mes", as_index=False)[["Receita Total", "Lucro Total", "Custo Total"]].sum().sort_values("Mes")
 df_receita_pais = df_vendas.groupby("País", as_index=False)["Receita Total"].sum().sort_values("Receita Total", ascending=False).head(15)
 df_receita_regiao_pais_item = df_vendas.groupby(["Região", "Tipo de Item"], as_index=False)["Receita Total"].sum()
-
-# Base para a secção "Preço, Custo e Unidades Vendidas" (antes calculada mas nunca usada)
-df_receita_preco_custo_margem = df_vendas.drop(
-    columns=["Região", "Canal de Venda", "Prioridade da Encomenda", "Mes", "ID da Encomenda",
-             "Data da Encomenda", "Data de Expedição", "Lucro Total", "Custo Total"]
-)
-
 df_receita_lucro_custo_total = df_vendas.groupby("Região", as_index=False)[["Receita Total", "Lucro Total", "Custo Total"]].sum()
 df_rcl = df_receita_lucro_custo_total.melt(id_vars='Região', var_name='Categoria', value_name='Valor')
 df_rcl = df_rcl.groupby(["Região", "Categoria"], as_index=False)["Valor"].sum()
@@ -179,7 +172,7 @@ app.layout = html.Div([
                 ],
                 id="pais"
             ),
-            
+
             html.Section(
                 [
                     html.H1("Logisticas"),
