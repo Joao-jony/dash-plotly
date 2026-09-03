@@ -47,7 +47,6 @@ app.layout = html.Div([
             html.A("Receitas", href="#receitas"),
             html.A("Receita, Lucros e Custos", href="#comp"),
             html.A("Região - País", href="#pais"),
-            html.A("Preço, Custo e Unidades Vendidas", href="#pcuv"),
             html.A("Logistica", href="#log")
         ],
         className="sidebar"
@@ -180,26 +179,7 @@ app.layout = html.Div([
                 ],
                 id="pais"
             ),
-
-            # NOVA SECÇÃO — antes só existia o link no menu, sem conteúdo
-            html.Section(
-                [
-                    html.H1("Preço, Custo e Unidades Vendidas"),
-                    dcc.Dropdown(
-                        id="pcuv_item_filtro",
-                        options=[
-                            {"label": "Todos os Itens", "value": "Todos Itens"}
-                        ] + [{"label": item, "value": item} for item in df_receita_preco_custo_margem['Tipo de Item'].unique()],
-                        value=["Todos Itens"],
-                        clearable=False,
-                        multi=True,
-                        style={"width": "50%", "margin": "auto"}
-                    ),
-                    dcc.Graph(id="pcuv_scatter")
-                ],
-                id="pcuv"
-            ),
-
+            
             html.Section(
                 [
                     html.H1("Logisticas"),
@@ -377,32 +357,6 @@ def act_grafico_rcl_total_pais(rcl_total_pais):
     )
     return fig
 
-
-# NOVO callback para a secção pcuv (dataframe já existia mas nunca era usado)
-@app.callback(
-    Output("pcuv_scatter", "figure"),
-    Input("pcuv_item_filtro", "value")
-)
-def act_grafico_pcuv(itens):
-    if not itens or "Todos Itens" in itens:
-        df_filtro = df_receita_preco_custo_margem
-    else:
-        df_filtro = df_receita_preco_custo_margem[df_receita_preco_custo_margem["Tipo de Item"].isin(itens)]
-
-    fig = px.scatter(
-        df_filtro,
-        x="Preço Unitário",
-        y="Custo Unitário",
-        size="Unidades Vendidas",
-        color="Tipo de Item",
-        hover_data=["País", "Receita Total"],
-        title="Preço vs Custo Unitário (tamanho = Unidades Vendidas)",
-        template="plotly_white"
-    )
-    return fig
-
-
-# CORRIGIDO: antes ignorava o canal selecionado (Input(_) não usado)
 @app.callback(
     Output("dia_entre_histo", "figure"),
     Input("sel_canal", "value")
