@@ -3,7 +3,7 @@ import plotly.express as px
 import pandas as pd
 import os
 
-df_vendas = pd.read_csv("../csv_arq/sales.csv")
+df_vendas = pd.read_csv("csv_arq/sales.csv")
 df_vendas["Data da Encomenda"] = pd.to_datetime(df_vendas["Data da Encomenda"], format="%d/%m/%Y")
 df_vendas["Data de Expedição"] = pd.to_datetime(df_vendas["Data de Expedição"], format="%d/%m/%Y")
 df_vendas["Dias"] = (df_vendas["Data de Expedição"] - df_vendas["Data da Encomenda"]).dt.days
