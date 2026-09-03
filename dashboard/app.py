@@ -1,11 +1,12 @@
 from dash import Dash, html, Input, Output, dcc
 import plotly.express as px
 import pandas as pd
+import os
 
 df_vendas = pd.read_csv("../csv_arq/sales.csv")
 df_vendas["Data da Encomenda"] = pd.to_datetime(df_vendas["Data da Encomenda"], format="%d/%m/%Y")
 df_vendas["Data de Expedição"] = pd.to_datetime(df_vendas["Data de Expedição"], format="%d/%m/%Y")
-df_vendas["Dias"] = ( df_vendas["Data de Expedição"] - df_vendas["Data da Encomenda"]).dt.days
+df_vendas["Dias"] = (df_vendas["Data de Expedição"] - df_vendas["Data da Encomenda"]).dt.days
 
 df_receitas_total = df_vendas.groupby("Região", as_index=False)["Receita Total"].sum().sort_values("Receita Total", ascending=False)
 df_receita_total_itens = df_vendas.groupby("Tipo de Item", as_index=False)[["Receita Total", "Lucro Total"]].sum().sort_values("Receita Total", ascending=False)
@@ -25,6 +26,7 @@ df_rcl_por_pais = df_rcl_por_pais.groupby(["País", "Categoria"], as_index=False
 df_sub_pizza = df_vendas
 
 app = Dash(__name__)
+server = app.server  
 
 app.layout = html.Div([
     html.Nav(
@@ -507,4 +509,4 @@ def ac_graf_canal(todos_canal):
     return fig
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
