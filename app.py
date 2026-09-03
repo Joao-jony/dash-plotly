@@ -25,8 +25,10 @@ df_rcl_por_pais = df_por_pais.melt(id_vars='País', var_name='Categoria', value_
 df_rcl_por_pais = df_rcl_por_pais.groupby(["País", "Categoria"], as_index=False)["Valor"].sum()
 df_sub_pizza = df_vendas
 
+# Criar app
 app = Dash(__name__)
-server = app.server  
+
+server = app.server
 
 app.layout = html.Div([
     html.Nav(
