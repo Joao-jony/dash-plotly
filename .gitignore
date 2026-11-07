@@ -22,6 +22,8 @@ Thumbs.db
 
 # Data
 *.csv
+!csv_arq/
+!csv_arq/sales.csv
 *.xlsx
 *.xls
 *.db

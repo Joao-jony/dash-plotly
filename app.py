@@ -32,6 +32,9 @@ app = Dash(__name__)
 
 server = app.server
 
+# Entrada WSGI utilizada pela Vercel
+application = server
+
 app.layout = html.Div([
     html.Nav(
         [
