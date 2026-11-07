@@ -2,9 +2,7 @@
 venv/
 env/
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
 .Python
 
 # Dash
@@ -20,7 +18,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Data
+# Data: ignore by default, but include the dashboard source CSV
 *.csv
 !csv_arq/
 !csv_arq/sales.csv
@@ -30,6 +28,4 @@ Thumbs.db
 
 # Logs
 *.log
-
-# Render
 *.pid
