@@ -31,7 +31,6 @@ df_rcl_por_pais = df_rcl_por_pais.groupby(["País", "Categoria"], as_index=False
 app = Dash(__name__)
 
 server = app.server
-application = server
 
 app.layout = html.Div([
     html.Nav(
